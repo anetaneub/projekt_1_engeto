@@ -87,7 +87,7 @@ print(
     f"{separator}"
 )
 
-#  Tabulka s délkami slovo
+#  Tabulka s délkami slov
 word_lengths = {}
 
 for word in words:
