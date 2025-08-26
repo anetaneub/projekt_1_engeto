@@ -5,6 +5,10 @@ author: Aneta Pípalová
 email: anetaneub@seznam.cz
 """
 
+import sys
+import re
+from collections import Counter
+
 TEXTS = [
     """Situated about 10 miles west of Kemmerer,
     Fossil Butte is a ruggedly impressive
@@ -36,8 +40,8 @@ TEXTS = [
 registered = {"bob": "123", "ann": "pass123", "mike": "password123", "liz": "pass123"}
 
 separator = "-" * 30
-username = input("Username:")
-password = input("Password:")
+username = input("Username:").strip()
+password = input("Password:").strip()
 print(separator)
 
 if username in registered and registered[username] == password:
@@ -54,7 +58,7 @@ else:
          unregistered user, terminating the program..
           """
     )
-    exit()
+    sys.exit()
 
 choice = input("Enter a number btw. 1 and 3 to select:")
 print(separator)
@@ -62,10 +66,12 @@ print(separator)
 
 if not choice.isdigit() or int(choice) < 1 or int(choice) > len(TEXTS):
     print("Invalid choice")
-    exit()
+    sys.exit()
 
 selected_text = TEXTS[int(choice) - 1]
-words = selected_text.split()
+
+pattern = r"[A-Za-z0-9-]+"
+words = re.findall(pattern, selected_text)
 
 #  Statistiky
 words_count = len(words)
@@ -88,14 +94,7 @@ print(
 )
 
 #  Tabulka s délkami slov
-word_lengths = {}
-
-for word in words:
-    length = len(word)
-    if length in word_lengths:
-        word_lengths[length] += 1
-    else:
-        word_lengths[length] = 1
+word_lengths = dict(Counter(words))
 
 print("LEN| OCCURENCES  |NR.")
 print(separator)
